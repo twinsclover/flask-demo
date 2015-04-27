@@ -1,9 +1,9 @@
 from flask import render_template, flash, redirect, request, make_response, \
      g, url_for, session, escape
-from app import app
+from peas import app
 from wtforms import TextField
-from .forms import LoginForm
-from .database import connect_db
+from forms import LoginForm
+from database import connect_db
 
 @app.before_request
 def before_request():
