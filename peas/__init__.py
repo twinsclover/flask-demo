@@ -4,4 +4,4 @@ from flask import Flask, request, session, g, redirect, url_for, \
 app = Flask(__name__)
 app.config.from_object('peas.config')
 
-from peas import views
+from peas.views import data, home

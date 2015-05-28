@@ -1,5 +1,5 @@
 # configuration
-DATABASE = '/tmp/flaskr.db'
+DATABASE = './peas.db'
 DEBUG = True
 USERNAME = 'twinsclover'
 PASSWORD = 'twinsclover'
