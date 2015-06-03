@@ -23,10 +23,7 @@ def show_entries():
     if not session.get('logged_in'):
       form = LoginForm()
       return render_template('login.html', form=form)
-
-    cur = g.db.execute('select username, title, content from notes order by id desc')
-    notes = [dict(username=row[0], title=row[1], content=row[2]) for row in cur.fetchall()]
-    return render_template('layout.html', notes=notes)
+    return render_template('layout.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

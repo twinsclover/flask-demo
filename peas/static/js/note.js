@@ -1,11 +1,11 @@
-var peasModule = angular.module('peas', []);
+var noteModule = angular.module('note', []);
 
-peasModule.config(['$interpolateProvider', function($interpolateProvider) {
+noteModule.config(['$interpolateProvider', function($interpolateProvider) {
   $interpolateProvider.startSymbol('{[');
   $interpolateProvider.endSymbol(']}');
 }]);
 
-peasModule.controller('peasCtrl',
+noteModule.controller('noteCtrl',
     ['$scope', '$http', 'noteService', function($scope, $http, noteService) {
   $scope.title = '';
   $scope.content = '';
@@ -36,7 +36,7 @@ peasModule.controller('peasCtrl',
   $scope.getNotes();
 }]);
 
-peasModule.factory('noteService', ['$http', function($http) {
+noteModule.factory('noteService', ['$http', function($http) {
   /**
    * Sends a request to add one note.
    * @param {string} title The title of note.
@@ -45,7 +45,7 @@ peasModule.factory('noteService', ['$http', function($http) {
    * @param {function} errorCallback Invoked when request is failed.
    */
   this.add = function(title, content, succCallback, errorCallback) {
-    var resp = $http.post('/add',
+    var resp = $http.post('/note/add',
       { title: title, content: content }); 
     resp.success(succCallback);
     resp.error(errorCallback);
@@ -58,7 +58,7 @@ peasModule.factory('noteService', ['$http', function($http) {
    * @param {function} errorCallback Invoked when request is failed.
    */
   this.delete = function(id, succCallback, errorCallback) {
-    var resp = $http.post('/delete', { id: id });
+    var resp = $http.post('/note/delete', { id: id });
     resp.success(succCallback);
     resp.error(errorCallback);
   };
@@ -69,10 +69,11 @@ peasModule.factory('noteService', ['$http', function($http) {
    * @param {function} errorCallback Invoked when request is failed.
    */
   this.list = function(succCallback, errorCallback) {
-    var resp = $http.get('/get');
+    var resp = $http.get('/note/list');
     resp.success(succCallback);
     resp.error(errorCallback);
   };
 
   return this;
 }]);
+

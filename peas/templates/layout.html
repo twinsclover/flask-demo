@@ -1,29 +1,12 @@
 <!doctype html>
 <title>Flaskr</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<script src="{{ url_for('static', filename='angular.js') }}"></script>
-<script src="{{ url_for('static', filename='peas.js') }}"></script>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+<script src="{{ url_for('static', filename='angularjs/angular.js') }}"></script>
+<script src="{{ url_for('static', filename='angularjs/angular-route.js') }}"></script>
+{% assets "note_js" %}
+  <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
 
-<body ng-app="peas">
-  <div ng-controller="peasCtrl">
-    <p>Calculator</p>
-    <p>title: <input type="text" ng-model="title"></p>
-    <p>Content: <textarea rows=10 cols=80 ng-model="content"></textarea></p>
-    <p><button ng-click="addNote()">Add Note</button></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>content</th>
-        <tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="note in notes">
-          <td>{[note["title"]]}</td>
-          <td>{[note["content"]]}</td>
-          <td><button ng-click="deleteNote(note['id'])">X</button></p>
-        </tr>
-    </table>
-    <p><span ng-bind="response"></span></p>
-  </div>
+<body ng-app="peas" ng-strict-di>
+  <div ng-view></div>
 </body>

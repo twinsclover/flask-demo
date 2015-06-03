@@ -5,3 +5,4 @@ app = Flask(__name__)
 app.config.from_object('peas.config')
 
 from peas.views import data, home
+from .util import asserts

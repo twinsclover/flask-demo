@@ -1,10 +1,3 @@
-drop table if exists entries;
-create table entries (
-  id integer primary key autoincrement,
-  title text not null,
-  text text not null
-);
-
 drop table if exists users;
 create table users (
   id integer primary key autoincrement,
@@ -12,10 +5,18 @@ create table users (
   password text not null
 );
 
-drop table if exists notes;
 create table notes (
   id integer primary key autoincrement,
-  username text not null,
+  book_id integer not null,
+  user_id integer not null,
   title text not null,
-  content content not null
+  content content not null,
+  creation_ts float not null
+);
+
+create table books (
+  id integer primary key autoincrement,
+  user_id integer not null,
+  name text not null,
+  creation_ts float not null
 );
