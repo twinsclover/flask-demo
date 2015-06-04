@@ -1,0 +1,15 @@
+<div>
+  <div>
+    <tr>
+      <td><input type="text" ng-model="name"><td>
+      <td><button ng-click="naviCtrl.addBook()">Add Book</button></td>
+    </tr>
+  </div>
+  <table>
+    <tr ng-repeat="book in naviCtrl.books">
+      <td>{{ book["name"] }}</td>
+      <td><button ng-click="naviCtrl.selectBook(book)">Select</button></td>
+    </tr>
+  </table>
+  <div> Selected book: {{ naviCtrl.selectedBook }}</div>
+</div>

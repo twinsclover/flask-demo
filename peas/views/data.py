@@ -42,10 +42,15 @@ def add_note():
     g.db.commit();
     return jsonify(code = 200)
 
-@app.route('/note/list', methods=['GET'])
+@app.route('/note/list', methods=['POST'])
+@only_json_request
 def list_notes():
+    json = request.json;
+    book_id = 0
+    if 'book_id' in json:
+        book_id = json['book_id']
     cur = g.db.execute('select id, book_id, user_id, title, content, creation_ts'
-        ' from notes order by id desc')
+        ' from notes where book_id = ? order by id desc', [book_id])
     notes = [dict(id=row[0], book_id=row[1], user_id=row[2], title=row[3], content=row[4], creation_ts=row[5]) for row in cur.fetchall()]
     return jsonify(notes=notes)
 

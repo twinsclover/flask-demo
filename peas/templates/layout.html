@@ -3,10 +3,15 @@
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
 <script src="{{ url_for('static', filename='angularjs/angular.js') }}"></script>
 <script src="{{ url_for('static', filename='angularjs/angular-route.js') }}"></script>
-{% assets "note_js" %}
+{% assets "main_js" %}
   <script type="text/javascript" src="{{ ASSET_URL }}"></script>
 {% endassets %}
 
 <body ng-app="peas" ng-strict-di>
-  <div ng-view></div>
+  <div id="layout">
+    <div id="navi" navi></div>
+    <div id="main">
+      <div ng-view></div>
+    </div>
+  </div>
 </body>

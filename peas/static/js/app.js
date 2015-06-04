@@ -1,13 +1,13 @@
-var peasModule = angular.module('peas', ['ngRoute', 'note']);
+var app = angular.module('peas', ['ngRoute', 'noteModule', 'naviModule']);
 
-peasModule.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
-      when('/test', {
-        templateUrl: 'static/js/note.ng',
-        controller: 'noteCtrl'
-      }).
-      otherwise({
-        redirectTo: '/'
-      });
-  }]);
+app.config(['$routeProvider', function($routeProvider) {
+  $routeProvider.
+    when('/', {
+      templateUrl: 'static/js/note.ng',
+      controller: 'noteController',
+      controllerAs: 'noteCtrl'
+    }).
+    otherwise({
+      redirectTo: '/'
+    });
+}]);

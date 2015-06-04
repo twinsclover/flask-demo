@@ -2,10 +2,12 @@ from flask.ext.assets import Bundle, Environment
 from .. import app
 
 bundles = {
-    'note_js': Bundle(
+    'main_js': Bundle(
+        'js/data_service.js',
+        'js/note_controller.js',
+        'js/navi_controller.js',
         'js/app.js',
-        'js/note.js',
-        output='gen/note.js'),
+        output='gen/main.js'),
 }
 
 assets = Environment(app)
