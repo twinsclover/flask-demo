@@ -1,7 +1,7 @@
 <div>
   <p>Calculator</p>
-  <p>title: <input type="text" ng-model="title"></p>
-  <p>Content: <textarea rows=10 cols=80 ng-model="content"></textarea></p>
+  <p>title: <input type="noteCtrl.text" ng-model="title"></p>
+  <p>Content: <textarea rows=10 cols=80 ng-model="noteCtrl.content"></textarea></p>
   <p><button ng-click="noteCtrl.addNote()">Add Note</button></p>
   <table>
     <thead>

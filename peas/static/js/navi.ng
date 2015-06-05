@@ -1,7 +1,7 @@
 <div>
   <div>
     <tr>
-      <td><input type="text" ng-model="name"><td>
+      <td><input type="text" ng-model="naviCtrl.name"><td>
       <td><button ng-click="naviCtrl.addBook()">Add Book</button></td>
     </tr>
   </div>
