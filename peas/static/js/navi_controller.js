@@ -59,9 +59,7 @@ function naviController($scope, bookService) {
   };
 
   function selectBook(book) {
-    console.log(book);
     vm.selectedBook = book;
-    console.log(vm.selectedBook);
     $scope.$broadcast(naviModule.EventType.SELECTED, vm.selectedBook);
   };
 

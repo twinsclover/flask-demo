@@ -51,7 +51,6 @@ function noteController($scope, noteService) {
   };
 
   function handleSelectEvent(e, selectedBook) {
-    console.log(e);
     vm.book = selectedBook;
     vm.listNotes();
   };

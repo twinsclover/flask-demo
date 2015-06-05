@@ -49,9 +49,17 @@ def list_notes():
     book_id = 0
     if 'book_id' in json:
         book_id = json['book_id']
-    cur = g.db.execute('select id, book_id, user_id, title, content, creation_ts'
-        ' from notes where book_id = ? order by id desc', [book_id])
-    notes = [dict(id=row[0], book_id=row[1], user_id=row[2], title=row[3], content=row[4], creation_ts=row[5]) for row in cur.fetchall()]
+
+    # If book_id == 0, we fetch all notes. Otherwise we only fetch the latest one.
+    if book_id == 0:
+        cur = g.db.execute('select id, book_id, user_id, title, content, creation_ts'
+            ' from notes order by id desc')
+    else:
+        cur = g.db.execute('select id, book_id, user_id, title, content, creation_ts'
+            ' from notes where book_id = ? order by id desc', [book_id])
+
+    notes = [dict(id=row[0], book_id=row[1], user_id=row[2], title=row[3],
+        content=row[4], creation_ts=row[5]) for row in cur.fetchall()]
     return jsonify(notes=notes)
 
 @app.route('/note/delete', methods=['POST'])

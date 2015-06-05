@@ -1,9 +1,22 @@
 var dataModule = angular.module('dataModule', []);
     
+dataModule.factory('noteService', noteService);
+dataModule.factory('bookService', bookService);
+
+
+
 /**
  * This service is used to send notes related requests to backend.
  */
-dataModule.factory('noteService', ['$http', function($http) {
+noteService.$inject = ['$http'];
+
+function noteService($http) {
+  var sv = {};
+
+  sv.add = addNote;
+  sv.delete = deleteNote;
+  sv.list = listNote;
+
   /**
    * Sends a request to add one note.
    * @param {number} bookId The id of book.
@@ -12,7 +25,7 @@ dataModule.factory('noteService', ['$http', function($http) {
    * @param {function} succCallback Invoked when request is succeeded.
    * @param {function} errorCallback Invoked when request is failed.
    */
-  this.add = function(bookId, title, content, succCallback, errorCallback) {
+  function addNote(bookId, title, content, succCallback, errorCallback) {
     var resp = $http.post('/note/add',
       { book_id: bookId, title: title, content: content }); 
     resp.success(succCallback);
@@ -25,7 +38,7 @@ dataModule.factory('noteService', ['$http', function($http) {
    * @param {function} succCallback Invoked when request is succeeded.
    * @param {function} errorCallback Invoked when request is failed.
    */
-  this.delete = function(id, succCallback, errorCallback) {
+  function deleteNote(id, succCallback, errorCallback) {
     var resp = $http.post('/note/delete', { id: id });
     resp.success(succCallback);
     resp.error(errorCallback);
@@ -37,27 +50,36 @@ dataModule.factory('noteService', ['$http', function($http) {
    * @param {function} succCallback Invoked when request is succeeded.
    * @param {function} errorCallback Invoked when request is failed.
    */
-  this.list = function(bookId, succCallback, errorCallback) {
+  function listNote(bookId, succCallback, errorCallback) {
     var resp = $http.post('/note/list', { book_id: bookId });
     resp.success(succCallback);
     resp.error(errorCallback);
   };
 
-  return this;
-}]);
+  return sv;
+};
 
 
 /**
  * This service is used to send books related requests to backend.
  */
-dataModule.factory('bookService', ['$http', function($http) {
+bookService.$inject = ['$http'];
+
+function bookService($http) {
+  var sv = {};
+
+  // Methods.
+  sv.add = addBook;
+  sv.delete = deleteBook;
+  sv.list = listBook;
+
   /**
    * Sends a request to add one book.
    * @param {string} name The name of book.
    * @param {function} succCallback Invoked when request is succeeded.
    * @param {function} errorCallback Invoked when request is failed.
    */
-  this.add = function(name, succCallback, errorCallback) {
+  function addBook(name, succCallback, errorCallback) {
     var resp = $http.post('/book/add',
       { name: name }); 
     resp.success(succCallback);
@@ -70,7 +92,7 @@ dataModule.factory('bookService', ['$http', function($http) {
    * @param {function} succCallback Invoked when request is succeeded.
    * @param {function} errorCallback Invoked when request is failed.
    */
-  this.delete = function(id, succCallback, errorCallback) {
+  function deleteBook(id, succCallback, errorCallback) {
     var resp = $http.post('/book/delete', { id: id });
     resp.success(succCallback);
     resp.error(errorCallback);
@@ -81,11 +103,11 @@ dataModule.factory('bookService', ['$http', function($http) {
    * @param {function} succCallback Invoked when request is succeeded.
    * @param {function} errorCallback Invoked when request is failed.
    */
-  this.list = function(succCallback, errorCallback) {
+  function listBook(succCallback, errorCallback) {
     var resp = $http.get('/book/list');
     resp.success(succCallback);
     resp.error(errorCallback);
   };
 
-  return this;
-}]);
+  return sv;
+};
