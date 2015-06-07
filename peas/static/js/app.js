@@ -1,4 +1,9 @@
-var app = angular.module('peas', ['ngRoute', 'noteModule', 'naviModule']);
+var app = angular.module('peas', [
+    'ngRoute',
+    'initModule',
+    'dataModule',
+    'noteModule',
+    'naviModule']);
 
 app.config(['$routeProvider', function($routeProvider) {
   $routeProvider.

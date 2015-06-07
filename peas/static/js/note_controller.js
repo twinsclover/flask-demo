@@ -1,48 +1,55 @@
-var noteModule = angular.module('noteModule', ['dataModule']);
+var noteModule = angular.module('noteModule', []);
 
 noteModule.controller('noteController', noteController);
 
-noteController.$inject = ['$scope', 'noteService'];
+noteController.$inject = ['$scope', 'noteService', 'initService'];
 
 /**
  * The controller for note related stuff.
  */
-function noteController($scope, noteService) {
+function noteController($scope, noteService, initService) {
   var vm = this;
 
   vm.title = '';
   vm.content = '';
   vm.notes = [];
   vm.response = '';
-  vm.book = {};
+  vm.book = null;
 
   vm.addNote = addNote;
   vm.deleteNote = deleteNote;
   vm.listNotes = listNotes;
   vm.handleError = handleError;
 
-  $scope.$on(naviModule.EventType.SELECTED, handleSelectEvent);
-
-  vm.listNotes();
+  // Init.
+  (function() {
+    $scope.$on(naviModule.EventType.SELECTED, handleSelectEvent);
+    initService.init('noteController', [], function() {
+    });
+  })();
   
   // Definitions
 
   function addNote() {
-    noteService.add(vm.book['id'] || 0, vm.title, vm.content,
-      vm.listNotes, vm.handleError);
+    var bookId = vm.book['id'];
+    noteService.add(bookId, vm.title, vm.content).
+      success(vm.listNotes).
+      error(vm.handleError);
   };
 
   function deleteNote(id) {
-    noteService.delete(id, vm.listNotes, vm.handleError);
+    noteService.delete(id).
+      success(vm.listNotes).
+      error(vm.handleError);
   };
 
   function listNotes() {
-    noteService.list(
-      vm.book['id'] || 0,
-      function(json) {
+    var bookId = vm.book['id'];
+    noteService.list(bookId).
+      success(function(json) {
         vm.notes = json.notes;
-      },
-      vm.handleError);
+      }).
+      error(vm.handleError);
   };
 
   // TODO(liutong): Check whether we need to use angular.bind or not.
@@ -50,9 +57,8 @@ function noteController($scope, noteService) {
     vm.response = data;
   };
 
-  function handleSelectEvent(e, selectedBook) {
-    vm.book = selectedBook;
+  function handleSelectEvent(e, book) {
+    vm.book = book;
     vm.listNotes();
   };
-
 };

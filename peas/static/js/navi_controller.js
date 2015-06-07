@@ -1,4 +1,4 @@
-var naviModule = angular.module('naviModule', ['dataModule']);
+var naviModule = angular.module('naviModule', []);
 
 naviModule.directive('navi', naviDirective);
 naviModule.controller('naviController', naviController);
@@ -19,48 +19,59 @@ function naviDirective() {
   };
 };
 
-naviController.$inject = ['$scope', 'bookService'];
+naviController.$inject = ['$scope', '$rootScope', '$q', 'bookService',
+  'initService'];
 
-function naviController($scope, bookService) {
+function naviController($scope, $rootScope, $q, bookService, initService) {
   var vm = this;
 
   vm.name = ''
-  vm.defaultBook = {id: 0, name: 'All'};
+  vm.defaultBook = {'id': 0, 'name': 'All'};
   vm.books = [vm.defaultBook];
   vm.response = '';
-  vm.selectedBook = vm.defaultBook;
 
   vm.addBook = addBook;
   vm.deleteBook = deleteBook;
   vm.listBooks = listBooks;
+  vm.selectedBook = vm.defaultBook;
   vm.selectBook = selectBook;
   vm.handleError = handleError;
 
-  vm.listBooks();
-
+  // Init.
+  (function() {
+    initService.init('naviController', [vm.listBooks()], function() {
+      // TODO(liutong): Save previous selection in backend and retrieve here.
+      vm.selectBook(vm.defaultBook);
+    });
+  })();
+  
   function addBook() {
     if (!vm.name) {
       alert('empty name');
       return;
     }
-    bookService.add(vm.name, vm.listBooks, vm.handleError);
+    bookService.add(vm.name).
+      success(vm.listBooks).
+      error(vm.handleError);
   };
 
   function deleteBook(id) {
-    bookService.delete(id, vm.listBooks, vm.handleError);
+    bookService.delete(id).
+      success(vm.listBooks).
+      error(vm.handleError);
   };
 
   function listBooks() {
-    bookService.list(
-      function(json) {
+    return bookService.list().
+      success(function(json) {
         vm.books = [vm.defaultBook].concat(json.books);
-      },
-      vm.handleError);
+      }).
+      error(vm.handleError);
   };
 
   function selectBook(book) {
     vm.selectedBook = book;
-    $scope.$broadcast(naviModule.EventType.SELECTED, vm.selectedBook);
+    $rootScope.$broadcast(naviModule.EventType.SELECTED, book);
   };
 
   // TODO(liutong): Check whether we need to use angular.bind or not.

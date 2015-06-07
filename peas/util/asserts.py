@@ -3,6 +3,7 @@ from .. import app
 
 bundles = {
     'main_js': Bundle(
+        'js/init_service.js',
         'js/data_service.js',
         'js/note_controller.js',
         'js/navi_controller.js',
